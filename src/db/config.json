@@ -1,0 +1,13 @@
+{
+    "db": {
+        "tables": {
+            "sessions": "sessions",
+            "clients": "clients",
+            "users": "users",
+            "services": "services",
+            "tags": "tags",
+            "client_tags": "client_tags"
+        },
+        "log": true
+    }
+}
