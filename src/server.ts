@@ -22,7 +22,10 @@ if (!process.env.PORT) {
 const dbPath: string = process.env.SQLITE_DB || './db/sqlite.db';
 const db = Promise.resolve()
   .then(() => sqlite.open(dbPath))
-  .then(db => db.migrate({ force: 'last' }));
+  .then(db => {
+	// db.migrate({ force: 'last' })
+	db.migrate({});
+  });
 
 app.listen(process.env.PORT);
 

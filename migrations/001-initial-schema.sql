@@ -1,19 +1,19 @@
 -- Up
 CREATE TABLE users (
-    id          VARCHAR primary key,
-    name        VARCHAR not null,
-    email       VARCHAR not null,
-    password    VARCHAR not null,
-    role        VARCHAR not null
+    id          VARCHAR PRIMARY KEY,
+    name        VARCHAR NOT NULL,
+    email       VARCHAR NOT NULL,
+    password    VARCHAR NOT NULL,
+    role        VARCHAR NOT NULL
 );
 
 CREATE TABLE clients (
     id          VARCHAR PRIMARY KEY,
-    name        VARCHAR NOT NULL,
-    email       VARCHAR NULL,
-    phone       VARCHAR NULL,
-    address     VARCHAR NULL,
-    description VARCHAR NULL
+    name        VARCHAR DEFAULT 'Neimenovan'    NOT NULL,
+    email       VARCHAR DEFAULT 'Ni e-naslova'  NOT NULL,
+    phone       VARCHAR DEFAULT 'Ni številke'   NOT NULL,
+    address     VARCHAR DEFAULT 'Ni naslova'    NOT NULL,
+    description VARCHAR DEFAULT 'Brez opisa'    NOT NULL
 );
 
 CREATE TABLE services (
