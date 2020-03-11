@@ -16,13 +16,13 @@ router.get("/tags", auth, async (req: express.Request, resp: express.Response) =
 router.post("/tags", auth, async (req: express.Request, resp: express.Response) => {
     const tag = new Tag(req.body);
     tag.generateId();
-    insert(conf.db.tables.tags, tag);
+    console.log(await insert(conf.db.tables.tags, tag));
     new SuccessResponse().setData(tag).send(resp);
 });
 
 router.get("/tags/client/:client", auth, async (req: express.Request, resp: express.Response) => {
-    const client_tag = new ClientTag({id: req.params['client']});
-    const data = leftJoin(conf.db.tables.client_tags, conf.db.tables.tags, 'tag_id', 'id', client_tag);
+    const client_tag = new ClientTag({client_id: req.params['client']});
+    const data = await leftJoin(conf.db.tables.client_tags, conf.db.tables.tags, 'tag_id', 'id', client_tag);
     new SuccessResponse().setData(data).send(resp);
 });
 

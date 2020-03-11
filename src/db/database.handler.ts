@@ -35,9 +35,9 @@ export async function deleteItem(table: string, filter: DbItem): Promise<DbItem[
 }
 
 export async function innerJoin(t1: string, t2: string, t1key: string, t2key: string, filter: DbItem): Promise<DbItem[]> {
-    return query('SELECT * FROM ' + t1 + ' AS t1 INNER JOIN ' + t2 + ' as t2 ON t1.' + t1key + ' = t2.' + t2key );
+    return query('SELECT * FROM ' + t1 + ' AS t1 INNER JOIN ' + t2 + ' as t2 ON t1.' + t1key + ' = t2.' + t2key + ' WHERE ' + filter.whereString() );
 }
 
 export async function leftJoin(t1: string, t2: string, t1key: string, t2key: string, filter: DbItem): Promise<DbItem[]> {
-    return query('SELECT * FROM ' + t1 + ' AS t1 LEFT JOIN ' + t2 + ' as t2 ON t1.' + t1key + ' = t2.' + t2key );
+    return query('SELECT * FROM ' + t1 + ' AS t1 LEFT JOIN ' + t2 + ' as t2 ON t1.' + t1key + ' = t2.' + t2key + ' WHERE ' + filter.whereString());
 }
