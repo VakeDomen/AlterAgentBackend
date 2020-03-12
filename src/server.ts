@@ -17,7 +17,7 @@ if (!process.env.PORT) {
     process.exit(1);
 }
 
-const dbPath: string = process.env.SQLITE_DB || './src//db/sqlite.db';
+const dbPath: string = process.env.SQLITE_DB || './src/db/data/sqlite.db';
 const db = Promise.resolve()
   .then(() => sqlite.open(dbPath))
   .then(db => {

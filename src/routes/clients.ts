@@ -1,8 +1,8 @@
+import { Client } from './../models/client.item';
 import { verifyTokenMiddleware as auth } from '../auth/local.util';
 import * as express from 'express';
-import { fetch, insert, update } from '../db/database.handler';
+import { fetch, insert, update, deleteItem } from '../db/database.handler';
 import * as conf from '../db/config.json';
-import { Client } from '../models/client.item';
 import { SuccessResponse } from '../models/success.response';
 
 const router: express.Router = express.Router();
@@ -30,7 +30,10 @@ router.post("/clients", auth, async (req: express.Request, resp: express.Respons
     new SuccessResponse().setData(client).send(resp);
 });
 
-
-
+router.delete('/clients', auth, async (req: express.Request, resp: express.Response) => {
+    const client = new Client(req.body);
+    await deleteItem(conf.db.tables.clients, client);
+    new SuccessResponse().setData(client).send(resp);
+})
 
 module.exports = router;

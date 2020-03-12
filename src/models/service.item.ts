@@ -1,6 +1,6 @@
 import { DbItem } from './db.item';
 
-export class Client extends DbItem {
+export class Service extends DbItem {
 
     name: string;
     color: string;
