@@ -19,7 +19,7 @@ router.get("/tags", auth, async (req: express.Request, resp: express.Response) =
 router.post("/tags", auth, async (req: express.Request, resp: express.Response) => {
     const tag = new Tag(req.body);
     tag.generateId();
-    console.log(await insert(conf.db.tables.tags, tag)).catch(err => {
+    await insert(conf.db.tables.tags, tag).catch(err => {
         new ErrorResponse().setError(err).send(resp);
     });
     new SuccessResponse().setData(tag).send(resp);
