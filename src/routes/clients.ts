@@ -1,6 +1,6 @@
 import { verifyTokenMiddleware as auth } from '../auth/local.util';
 import * as express from 'express';
-import { fetch, insert } from '../db/database.handler';
+import { fetch, insert, update } from '../db/database.handler';
 import * as conf from '../db/config.json';
 import { Client } from '../models/client.item';
 import { SuccessResponse } from '../models/success.response';
@@ -8,13 +8,18 @@ import { SuccessResponse } from '../models/success.response';
 const router: express.Router = express.Router();
 
 router.get("/clients", auth, async (req: express.Request, resp: express.Response) => {
-    // const clients = '(SELECT t1.*, t2.tag_id FROM ' 
-    //     + conf.db.tables.clients 
-    //     + ' AS t1 INNER JOIN ' 
-    //     + conf.db.tables.client_tags 
-    //     + ' AS t2 ON t1.id = t2.client_id)';
-    // const data = innerJoin(conf.db.tables.tags, clients, 'tag_id', 'id', new DbItem({}));
-    const data = await fetch(conf.db.tables.clients, new Client({}));
+   const data = await fetch(conf.db.tables.clients, new Client({}));
+    new SuccessResponse().setData(data).send(resp);
+});
+
+
+router.get("/clients/:id", auth, async (req: express.Request, resp: express.Response) => {
+    const data = await fetch(conf.db.tables.clients, new Client({id: req.params['id']}));
+    new SuccessResponse().setData(data).send(resp);
+});
+
+router.patch("/clients", auth, async (req: express.Request, resp: express.Response) => {
+    const data = await update(conf.db.tables.clients, new Client(req.body));
     new SuccessResponse().setData(data).send(resp);
 });
 
