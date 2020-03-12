@@ -39,9 +39,9 @@ router.post("/tags/unbind", auth, async (req: express.Request, resp: express.Res
     new SuccessResponse().setData(client_tag).send(resp);
 });
 
-router.delete('/tags', auth, async (req: express.Request, resp: express.Response) => {
-    const tag = new Tag(req.body);
-    await deleteItem(conf.db.tables.client_tags, tag);
+router.delete('/tags/:id', auth, async (req: express.Request, resp: express.Response) => {
+    const tag = new Tag({id: req.params['id']});
+    await deleteItem(conf.db.tables.tags, tag);
     await deleteItem(conf.db.tables.client_tags, new ClientTag({tag_id: tag.id}));
     new SuccessResponse().setData(tag).send(resp);
 })

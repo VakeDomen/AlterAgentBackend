@@ -1,3 +1,5 @@
+import { Session } from './../models/session.item';
+import { ClientTag } from './../models/client-tag.item';
 import { Client } from './../models/client.item';
 import { verifyTokenMiddleware as auth } from '../auth/local.util';
 import * as express from 'express';
@@ -30,10 +32,12 @@ router.post("/clients", auth, async (req: express.Request, resp: express.Respons
     new SuccessResponse().setData(client).send(resp);
 });
 
-router.delete('/clients', auth, async (req: express.Request, resp: express.Response) => {
-    const client = new Client(req.body);
+router.delete('/clients/:id', auth, async (req: express.Request, resp: express.Response) => {
+    const client = new Client({id: req.params['id']});
     await deleteItem(conf.db.tables.clients, client);
+    await deleteItem(conf.db.tables.client_tags, new ClientTag({client_id: client.id}));
+    await deleteItem(conf.db.tables.sessions, new Session({client_id: client.id}));
     new SuccessResponse().setData(client).send(resp);
-})
+});
 
 module.exports = router;

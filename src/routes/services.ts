@@ -19,8 +19,8 @@ router.post("/services", auth, async (req: express.Request, resp: express.Respon
     new SuccessResponse().setData(service).send(resp);
 });
 
-router.delete("/services", auth, async (req: express.Request, resp: express.Response) => {
-    const service = new Service(req.body);
+router.delete("/services/:id", auth, async (req: express.Request, resp: express.Response) => {
+    const service = new Service({id: req.params['id']});
     console.log(await deleteItem(conf.db.tables.services, service));
     new SuccessResponse().setData(service).send(resp);
 });

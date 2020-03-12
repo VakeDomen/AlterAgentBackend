@@ -1,6 +1,6 @@
 import { DbItem } from './db.item';
 
-export class Client extends DbItem {
+export class Session extends DbItem {
 
     user_id: string;
     client_id: string;
