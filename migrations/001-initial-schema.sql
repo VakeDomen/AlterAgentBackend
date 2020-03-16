@@ -24,7 +24,7 @@ CREATE TABLE services (
 
 CREATE TABLE sessions (
     id          VARCHAR PRIMARY KEY,
-    user_id     VARCHAR NOT NULL,
+    timestamp   TIMESTAMP NOT NULL,
     client_id   VARCHAR NOT NULL,
     description VARCHAR NULL,
     service_id  VARCHAR NULL
