@@ -1,7 +1,7 @@
 import { ErrorResponse } from './../models/error.response';
 import { verifyTokenMiddleware as auth } from '../auth/local.util';
 import * as express from 'express';
-import { fetchAll, insert, deleteItem } from '../db/database.handler';
+import { fetchAll, insert, deleteItem, fetch } from '../db/database.handler';
 import * as conf from '../db/config.json';
 import { Service } from '../models/service.item';
 import { SuccessResponse } from '../models/success.response';
@@ -10,6 +10,13 @@ const router: express.Router = express.Router();
 
 router.get("/services", auth, async (req: express.Request, resp: express.Response) => {
     const data = await fetchAll(conf.db.tables.services).catch(err => {
+        new ErrorResponse().setError(err).send(resp);
+    });
+    new SuccessResponse().setData(data).send(resp);
+});
+
+router.get("/services/:id", auth, async (req: express.Request, resp: express.Response) => {
+    const data = await fetch(conf.db.tables.services, new Service({id: req.params['id']})).catch(err => {
         new ErrorResponse().setError(err).send(resp);
     });
     new SuccessResponse().setData(data).send(resp);
