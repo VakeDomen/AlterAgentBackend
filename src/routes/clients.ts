@@ -29,7 +29,13 @@ router.get('/clients/tag/:tagId', auth, async (req: express.Request, resp: expre
             promises.push(fetch<Client>(conf.db.tables.clients, new Client({id: clientTag.client_id })));
         }
         Promise.all(promises)
-        .then(payload => {new SuccessResponse().setData(payload).send(resp)})
+        .then(resps => {
+            let data: Client[] = [];
+            for (const resp of resps) {
+                data = [...data, ...resp];
+            }
+            new SuccessResponse().setData(data).send(resp)
+        })
         .catch(err => {new ErrorResponse().setError(err).send(resp)});
     } else {
         new ErrorResponse().send(resp);
