@@ -32,9 +32,25 @@ export class DbItem {
                     if (typeof this[key] === "boolean") {
                         str+= key + " = " + ((this[key])? 1 : 0);
                     } else {
-                        str+= key + " = " + "'" + this[key] + "'";
+                        str+= key + " = '" + this[key] + "'";
                     }
                 } 
+            }
+        }
+        return str;
+    }
+
+    whereSimilarString(): string {
+        var str = '';
+        for (let key of Object.keys(this)) {
+            if (typeof this[key] !== 'undefined') {
+                if (str !== '') str += ', ';
+                if (key === 'id') continue;
+                if (typeof this[key] === 'boolean') {
+                    str += key + " = " + ((this[key] ? 1 : 0));
+                    continue;
+                }
+                str += "UPPER(" + key + ") LIKE UPPER('%" + this[key] + "%')"; 
             }
         }
         return str;

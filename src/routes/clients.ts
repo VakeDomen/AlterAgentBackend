@@ -4,7 +4,7 @@ import { ClientTag } from './../models/client-tag.item';
 import { Client } from './../models/client.item';
 import { verifyTokenMiddleware as auth } from '../auth/local.util';
 import * as express from 'express';
-import { fetch, insert, update, deleteItem } from '../db/database.handler';
+import { fetch, insert, update, deleteItem, fetchSimilar } from '../db/database.handler';
 import * as conf from '../db/config.json';
 import { SuccessResponse } from '../models/success.response';
 import { DbItem } from '../models/db.item';
@@ -48,6 +48,14 @@ router.get("/clients/:id", auth, async (req: express.Request, resp: express.Resp
     });
     new SuccessResponse().setData(data).send(resp);
 });
+
+router.get("/clients/name/:name", auth, async (req: express.Request, resp: express.Response) => {
+    const data = await fetchSimilar(conf.db.tables.clients, new Client({name: req.params['name']})).catch(err => {
+        new ErrorResponse().setError(err).send(resp);
+    });
+    new SuccessResponse().setData(data).send(resp);
+});
+
 
 router.patch("/clients", auth, async (req: express.Request, resp: express.Response) => {
     const data = await update(conf.db.tables.clients, new Client(req.body)).catch(err => {

@@ -20,6 +20,10 @@ export async function fetchAll<T>(table: string): Promise<T[]> {
     return query<T>('SELECT * FROM ' + table);
 }
 
+export async function fetchSimilar<T>(table: string, filter: DbItem): Promise<T[]> {
+    return query<T>('SELECT * FROM ' + table + ' WHERE ' + filter.whereSimilarString());
+}
+
 export async function insert<T>(table: string, filter: DbItem): Promise<T[]> {
     return query<T>('INSERT INTO ' + table + ' (' + filter.listKeys() + ') VALUES (' + filter.listValues() + ')');
 }
